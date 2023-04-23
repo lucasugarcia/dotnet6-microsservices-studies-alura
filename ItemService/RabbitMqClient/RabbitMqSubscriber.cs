@@ -32,6 +32,10 @@ namespace ItemService.RabbitMqClient
                 var mensagem = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
                 _processaEvento.Processa(mensagem);
             };
+
+            _channel.BasicConsume(queue: _nomeDaFila, autoAck: true, consumer:  consumidor);
+
+            return Task.CompletedTask;
         }
     }
 }
