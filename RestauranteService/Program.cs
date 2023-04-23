@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RestauranteService.Data;
 using RestauranteService.ItemServiceHttpClient;
+using RestauranteService.RabbitMqClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +21,14 @@ builder.Services.AddScoped<IRestauranteRepository, RestauranteRepository>();
 
 builder.Services.AddHttpClient<IItemServiceHttpClient, ItemServiceHttpClient>();
 
+builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestauranteService", Version = "v1" });
 });
-
 
 var app = builder.Build();
 
